@@ -4,24 +4,17 @@ import React from 'react';
 
 export default function Footer() {
 	return (
-		<footer class="text-primary">
-			<p> Desenvolvido por : Eluan Dias </p>
+		<footer className="text-primary">
+			<p> Desenvolvido por : Fernando Aguilar </p>
 			<p>
-				<a href="mailto:eluan.dias@hotmail.com" target="_blank">
-					<i class="fa fa-envelope fa-fw" />
+				<a href="mailto:fernando.aguilar@hotmail.com.br">
+					<i className="fa fa-envelope fa-fw" alt="Email" />
 				</a>
-				<a href="https://github.com/eluanDias" target="_blank">
-					<i class="fa fa-github fa-fw" />
+				<a href="https://github.com/fernand0aguilar" >
+					<i className="fa fa-github fa-fw" alt ="github"/>
 				</a>
-				<a href="https://br.linkedin.com/in/eluan" target="_blank">
-					<i class="fa fa-linkedin" />
-				</a>
-				<a href="http://codepen.io/eluan" target="_blank">
-					<i class="fa fa-codepen" />
-				</a>
-
-				<a href="https://www.freecodecamp.com/eluanssd" target="_blank">
-					(<i class="fa fa-fire fa-fw" />)
+				<a href="https://www.linkedin.com/in/fernando-ribeiro-aguilar-044029132" >
+					<i className="fa fa-linkedin" alt="linkedin"/>
 				</a>
 			</p>
 		</footer>
