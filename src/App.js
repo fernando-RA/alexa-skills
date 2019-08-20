@@ -1,6 +1,6 @@
 import React from 'react';
-import Footer from './Footer';
-import CitationsComponent from './CitationsComponent';
+import Footer from './components/Footer';
+import CitationsComponent from './components/CitationsComponent';
 // import './style.css';
 
 function App() {
