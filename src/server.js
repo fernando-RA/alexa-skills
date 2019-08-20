@@ -1,130 +1,141 @@
-/* var url ="http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=jsonp&jsonp=?"
- */
+const express = require('express');
+const Datastore = require('nedb');
+const fetch = require('node-fetch');
+require('dotenv').config();
 
-// var url = "http://quotes.stormconsultancy.co.uk/random.json?callback=?";
-//var url = "http://quotes.stormconsultancy.co.uk/random.json?";
-var ponteapi = '';
-var apiAutor = '';
-var conteudo = ponteapi;
+const app = express();
+const port = process.env.PORT || 8000;
 
-$.ajaxPrefilter(function(options) {
-	if (options.crossDomain && jQuery.support.cors) {
-		var http = window.location.protocol === 'http:' ? 'http:' : 'https:';
-		options.url = http + '//cors-anywhere.herokuapp.com/' + options.url;
-		//options.url = "http://cors.corsproxy.io/url=" + options.url;
-	}
-});
+app.listen(port, () => console.log(`listening at ${port}`));
 
-// $.get(
-//     'http://quotes.stormconsultancy.co.uk/random.json',
-//     function (response) {
-//         console.log("> ", response);
-//         $("#viewer").html(response);
+
+// /* var url ="http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=jsonp&jsonp=?"
+//  */
+
+// // var url = "http://quotes.stormconsultancy.co.uk/random.json?callback=?";
+// //var url = "http://quotes.stormconsultancy.co.uk/random.json?";
+// var ponteapi = '';
+// var apiAutor = '';
+// var conteudo = ponteapi;
+
+// $.ajaxPrefilter(function(options) {
+// 	if (options.crossDomain && jQuery.support.cors) {
+// 		var http = window.location.protocol === 'http:' ? 'http:' : 'https:';
+// 		options.url = http + '//cors-anywhere.herokuapp.com/' + options.url;
+// 		//options.url = "http://cors.corsproxy.io/url=" + options.url;
+// 	}
 // });
 
-var url = 'http://quotes.stormconsultancy.co.uk/random.json?';
+// // $.get(
+// //     'http://quotes.stormconsultancy.co.uk/random.json',
+// //     function (response) {
+// //         console.log("> ", response);
+// //         $("#viewer").html(response);
+// // });
 
-var pegaCitacoes = function() {
-	$.get(url, function(data) {
-		//console.log(data);
+// var url = 'http://quotes.stormconsultancy.co.uk/random.json?';
 
-		var twUrl = 'https://twitter.com/intent/tweet?text=' + data.quote + ' -' + data.author + '@EluanDias';
+// var pegaCitacoes = function() {
+// 	$.get(url, function(data) {
+// 		//console.log(data);
 
-		$('.load').hide();
-		$('blockquote').show();
+// 		var twUrl = 'https://twitter.com/intent/tweet?text=' + data.quote + ' -' + data.author + '@EluanDias';
 
-		//$(".citacao-texto").html(data.quote);
+// 		$('.load').hide();
+// 		$('blockquote').show();
 
-		ponteapi = data.quote;
-		apiAutor = data.author;
-		tradutor(ponteapi);
-		maquina(ponteapi);
+// 		//$(".citacao-texto").html(data.quote);
 
-		$('.twitter-share-button').attr('href', twUrl);
+// 		ponteapi = data.quote;
+// 		apiAutor = data.author;
+// 		tradutor(ponteapi);
+// 		maquina(ponteapi);
 
-		if (data.quoteAuthor !== '') {
-			$('.autor').html(data.author);
-		} else {
-			$('.autor').html('Desconhecido');
-		}
-	});
-};
+// 		$('.twitter-share-button').attr('href', twUrl);
 
-$(document).ready(function() {
-	$('.load').show();
-	$('blockquote').hide();
-	pegaCitacoes();
-});
+// 		if (data.quoteAuthor !== '') {
+// 			$('.autor').html(data.author);
+// 		} else {
+// 			$('.autor').html('Desconhecido');
+// 		}
+// 	});
+// };
 
-var tradutor = function() {
-	var targetLang = $('.lang-select').val();
-	var sourceText = ponteapi;
-	var sourceAutor = apiAutor;
+// $(document).ready(function() {
+// 	$('.load').show();
+// 	$('blockquote').hide();
+// 	pegaCitacoes();
+// });
 
-	var url2 = 'http://api.grimmstudios.biz/translate/' + targetLang + '/' + encodeURI(sourceText);
+// var tradutor = function() {
+// 	var targetLang = $('.lang-select').val();
+// 	var sourceText = ponteapi;
+// 	var sourceAutor = apiAutor;
 
-	$.getJSON(url2, function(data) {
-		//alert(data[0].Translated);
-		var setTranslate = function(valor, call) {
-			setTimeout(call, valor);
-		};
-		setTranslate(1400, () => {
-			$('.txtTraduzido').html('<spam>' + data[0].Translated + '</spam>');
-			$('.autorApi').html(sourceAutor);
-		});
-	});
-};
+// 	var url2 = 'http://api.grimmstudios.biz/translate/' + targetLang + '/' + encodeURI(sourceText);
 
-// ################### efeito maquina de escrever##############
+// 	$.getJSON(url2, function(data) {
+// 		//alert(data[0].Translated);
+// 		var setTranslate = function(valor, call) {
+// 			setTimeout(call, valor);
+// 		};
+// 		setTranslate(1400, () => {
+// 			$('.txtTraduzido').html('<spam>' + data[0].Translated + '</spam>');
+// 			$('.autorApi').html(sourceAutor);
+// 		});
+// 	});
+// };
 
-//
+// // ################### efeito maquina de escrever##############
 
-var texto = '';
-var count = 0;
-var maxspeed = 50;
+// //
 
-var maquina = function(ponteapi) {
-	texto = ponteapi;
+// var texto = '';
+// var count = 0;
+// var maxspeed = 50;
 
-	// alert(sourceText);
-	// alert(texto);
-	digitar();
-};
+// var maquina = function(ponteapi) {
+// 	texto = ponteapi;
 
-function digitar() {
-	//console.log("ok", count);
+// 	// alert(sourceText);
+// 	// alert(texto);
+// 	digitar();
+// };
 
-	if (count < texto.length) {
-		setTimeout(digitar, maxspeed);
-		$('.citacao-texto').html('<spam>' + texto.substring(0, count) + '</spam');
-		//console.log(texto.substring(0 , count))
+// function digitar() {
+// 	//console.log("ok", count);
 
-		count++;
-		console.log(count);
-		$('#numChars').html(count);
+// 	if (count < texto.length) {
+// 		setTimeout(digitar, maxspeed);
+// 		$('.citacao-texto').html('<spam>' + texto.substring(0, count) + '</spam');
+// 		//console.log(texto.substring(0 , count))
 
-		if (count > 70 && count < 140) {
-			$('#numChars').css('color', 'blue');
-			$('#btTw').css('color', 'blue');
-		} else if (count > 140) {
-			$('#numChars').css('color', 'red');
-			$('#btTw').css('color', 'red');
-		}
-	}
-}
+// 		count++;
+// 		console.log(count);
+// 		$('#numChars').html(count);
 
-$('#btnCitacao').click(function() {
-	$('.load').show();
-	$('blockquote').hide();
-	count = 0;
-	pegaCitacoes();
-	tradutor(ponteapi);
-	maquina(ponteapi);
+// 		if (count > 70 && count < 140) {
+// 			$('#numChars').css('color', 'blue');
+// 			$('#btTw').css('color', 'blue');
+// 		} else if (count > 140) {
+// 			$('#numChars').css('color', 'red');
+// 			$('#btTw').css('color', 'red');
+// 		}
+// 	}
+// }
 
-	$('html, body').animate(
-		{
-			scrollTop: 10
-		},
-		800
-	);
-});
+// $('#btnCitacao').click(function() {
+// 	$('.load').show();
+// 	$('blockquote').hide();
+// 	count = 0;
+// 	pegaCitacoes();
+// 	tradutor(ponteapi);
+// 	maquina(ponteapi);
+
+// 	$('html, body').animate(
+// 		{
+// 			scrollTop: 10
+// 		},
+// 		800
+// 	);
+// });
