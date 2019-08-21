@@ -1,6 +1,20 @@
 import React from 'react';
 
+async function callAPI(){
+	const db_response = await fetch('/api');
+	console.log(db_response);
+	
+	const db_json = await db_response.json();
+	
+	console.log("db:", db_json);
+	return db_json;
+}
+
 export default function CitationsComponent() {
+	
+	callAPI();
+
+	// TODO -> abstraction
 	return (
 		<section className="container sobre">
 			<h1 className="text-center"> Sobre Programação</h1>

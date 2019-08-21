@@ -8,6 +8,24 @@ const port = process.env.PORT || 8000;
 
 app.listen(port, () => console.log(`listening at ${port}`));
 
+app.use(express.static('public'));
+app.use(express.json({ limit: '1mb' }));
+
+const database = new Datastore('database.db');
+database.loadDatabase();
+
+app.get('/api', (request, response) => {
+    // console.log("hello world");
+    
+    database.find({}, (err, data) => {
+        if(err) {
+            response.end();
+            return;
+        }
+        response.json(data);
+    });
+});
+
 
 // /* var url ="http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=jsonp&jsonp=?"
 //  */
