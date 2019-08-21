@@ -3,6 +3,8 @@ const Datastore = require('nedb');
 const fetch = require('node-fetch');
 require('dotenv').config();
 
+// https://www.freecodecamp.org/news/how-to-make-create-react-app-work-with-a-node-backend-api-7c5c48acb1b0/
+
 const app = express();
 const port = process.env.PORT || 8000;
 
