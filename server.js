@@ -1,33 +1,33 @@
 const express = require('express');
-const Datastore = require('nedb');
-const fetch = require('node-fetch');
+const bodyParser = require('body-parser');
+// const fetch = require('node-fetch');
 require('dotenv').config();
 
 // https://www.freecodecamp.org/news/how-to-make-create-react-app-work-with-a-node-backend-api-7c5c48acb1b0/
 
+const port = process.env.PORT || 5000;
 const app = express();
-const port = process.env.PORT || 8000;
 
 app.listen(port, () => console.log(`listening at ${port}`));
 
 app.use(express.static('public'));
 app.use(express.json({ limit: '1mb' }));
 
-const database = new Datastore('database.db');
-database.loadDatabase();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/api', (request, response) => {
-    // console.log("hello world");
-    
-    database.find({}, (err, data) => {
-        if(err) {
-            response.end();
-            return;
-        }
-        response.json(data);
-    });
+app.get('/api/hello', (req, res) => {
+  res.send({ express: 'Hello From Express' });
 });
 
+app.post('/api/world', (req, res) => {
+  console.log(req.body);
+  res.send(
+    `I received your POST request. This is what you sent me: ${req.body.post}`,
+  );
+});
+
+app.listen(port, () => console.log(`Listening on port ${port}`));
 
 // /* var url ="http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=jsonp&jsonp=?"
 //  */
