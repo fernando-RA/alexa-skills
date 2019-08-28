@@ -4,14 +4,14 @@ const router = express.Router();
 
 router.get("/", async(req, res, next) => {
     console.log("hello world");
-    const techURL = "http://quotes.stormconsultancy.co.uk/random.json";
-    //const forismatic_url ="http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=jsonp&jsonp=?";
+    //const techURL = "http://quotes.stormconsultancy.co.uk/random.json";
+    const forismatic_url ="http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json";
     
-    //const forismatic_fetch_response = await fetch(forismatic_url);
-    //const forismatic_data = await forismatic_fetch_response.json();
-    
-    console.log("forismatic_data");
-    res.send("forismatic_data");
+    const forismatic_fetch_response = await fetch(forismatic_url);
+    const forismatic_data = await forismatic_fetch_response.json();
+
+    console.log(forismatic_data);
+    res.send(forismatic_data);
 });
 
 
