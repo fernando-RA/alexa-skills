@@ -17,6 +17,7 @@ export default function CitationsComponent() {
 	// TODO -> abstraction
 	return (
 		<section className="container sobre">
+		
 			<h1 className="text-center"> Sobre Programação</h1>
 			<p>
 				Este site exibe citações aletórias do campo da programação usando API Storm e Grimmstudios. Se você
